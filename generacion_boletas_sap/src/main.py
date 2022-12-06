@@ -98,11 +98,11 @@ def main():
     ## Inicia NotificaBoletas con Selenium
     try:
         time.sleep(5)
-        logging.info("Inicia subproceso: Inicia Sesion Notifica boletas")
+        logging.info("Inicia subproceso: Inicia  Notifica boletas por correo")
         spn.notificaCorreo()
     except:
         logging.error(sys.exc_info())
-        logging.error("Subproceso: Inicia Sesion Notifica boletas terminó en error, por favor revisar")
+        logging.error("Subproceso: Inicia Notifica boletas por correo terminó en error, por favor revisar")
 
     pyautogui.alert("El proceso termino con éxito")
 
