@@ -6,11 +6,14 @@ import os
 import pyautogui
 import time
 import json
+import json
+import logging
 
 from datetime import datetime
 
 import locale
 
+"""
 print(os.listdir(path="C:\\Users\\admrpa\\Documents\\SAP\\SAP GUI\\BOLETAS_CON_FIRMA\\2022\\JUNIO"))
 
 print(glob.glob("C:\\Users\\admrpa\\Documents\\SAP\\SAP GUI\\BOLETAS_CON_FIRMA\\2022\\JUNIO\*.pdf"))
@@ -22,7 +25,6 @@ with open("C:\\Proyectos\\proyectoFonafe\\generacion_boletas_sap\\src\\config.js
 ### Establecemos donde se guardarán las imagenes en la variable
 ruta_imagenes = str(config['PRODUCCION']['ruta_imagenes'])
 
-"""
 SelecttAllX , SelecttAllY = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\SelectAll.png", confidence=0.9)
 Recuadro = (SelecttAllX - 19)
 pyautogui.click(Recuadro, SelecttAllY)
@@ -40,3 +42,5 @@ now = datetime.now()
 Plantilla = "Estimado trabajador %usuario% El presente es para saludarlo y a la vez remitirle adjunto la boleta de remuneraciones del mes de " + now.strftime('%B') + " " + now.strftime('%Y') + ", puede llamar al departamento de recursos humanos. Puede consultarlo en %url%"
     
 print(Plantilla)
+
+"""

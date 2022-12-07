@@ -14,7 +14,7 @@ import subprocesoSap as sps
 import subprocesoNotificaCorreo as spn
 
 ### Definimos la ruta y el archivo de configuración config.json
-with open("C:\\Proyectos\\proyectoFonafe\\generacion_boletas_sap\\src\\config.json", 'r') as file:   config = json.load(file)
+with open("C:\\Users\\admrpa\\Documents\\GitHub\\fonafe\\generacion_boletas_sap\\src\\config.json", 'r') as file:   config = json.load(file)
 
 ### Establecemos donde se guardarán las imagenes en la variable
 ruta_imagenes = str(config['PRODUCCION']['ruta_imagenes'])
@@ -29,7 +29,8 @@ def main():
     path_log = str(config['PRODUCCION']['ruta_logs'])
     logging.basicConfig(filename=f'{path_log}\\{archivo_log}.log', filemode='w', level=logging.DEBUG, format='%(asctime)-5s %(name)-5s - %(levelname)-5s - %(message)-5s')
     logging.debug("========== Iniciando Proceso Automatizado ==========")
-    logging.debug("========== Generación y Emisión de Boletas ==========")
+    logging.debug("========== Generación y Emisión de Boletas ==========")   
+
     
     if os.path.exists(ruta_imagenes) == True:
         logging.info(f'La ruta {ruta_imagenes} de las imagenes se validó correctamente')

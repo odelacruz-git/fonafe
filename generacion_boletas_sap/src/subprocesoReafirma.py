@@ -9,7 +9,7 @@ import json
 
 
 ## Definimos la ruta y el archivo de configuración config.json
-with open("C:\\Proyectos\\proyectoFonafe\\generacion_boletas_sap\\src\\config.json", 'r') as file:   config = json.load(file)
+with open("C:\\Users\\admrpa\\Documents\\GitHub\\fonafe\\generacion_boletas_sap\\src\\config.json", 'r') as file:   config = json.load(file)
 ruta_imagenes = str(config['PRODUCCION']['ruta_imagenes'])
 
 carpeta_mes = "SIN ASIGNAR"

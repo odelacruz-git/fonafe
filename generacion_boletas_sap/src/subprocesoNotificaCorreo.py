@@ -24,7 +24,7 @@ import json
 import logging
 
 ### Definimos la ruta y el archivo de configuración config.json
-with open("C:\\Proyectos\\proyectoFonafe\\generacion_boletas_sap\\src\\config.json", 'r') as file:   config = json.load(file)
+with open("C:\\Users\\admrpa\\Documents\\GitHub\\fonafe\\generacion_boletas_sap\\src\\config.json", 'r') as file:   config = json.load(file)
 
 ### Establecemos donde se guardarán las imagenes en la variable
 ruta_imagenes = str(config['PRODUCCION']['ruta_imagenes'])
@@ -81,18 +81,46 @@ def notificaCorreo():
     locale.setlocale(locale.LC_ALL, 'es-ES') 
     now = datetime.now()
 
+    # Asignar nombre del mes para crear carpeta donde se guardaran las boletas.
+    if config['PRODUCCION']['periodo_mes'] == '01':
+            carpeta_mes = "ENERO"
+    elif config['PRODUCCION']['periodo_mes'] == '02':
+            carpeta_mes = "FEBRERO"
+    elif config['PRODUCCION']['periodo_mes'] == '03':
+            carpeta_mes = "MARZO"
+    elif config['PRODUCCION']['periodo_mes'] == '04':
+            carpeta_mes = "ABRIL"
+    elif config['PRODUCCION']['periodo_mes'] == '05':
+            carpeta_mes = "MAYO"
+    elif config['PRODUCCION']['periodo_mes'] == '06':
+            carpeta_mes = "JUNIO"
+    elif config['PRODUCCION']['periodo_mes'] == '07':
+            carpeta_mes = "JULIO"
+    elif config['PRODUCCION']['periodo_mes'] == '08':
+            carpeta_mes = "AGOSTO"
+    elif config['PRODUCCION']['periodo_mes'] == '09':
+            carpeta_mes = "SETIEMBRE"
+    elif config['PRODUCCION']['periodo_mes'] == '10':
+            carpeta_mes = "OCTUBRE"
+    elif config['PRODUCCION']['periodo_mes'] == '11':
+            carpeta_mes = "NOVIEMBRE"
+    elif config['PRODUCCION']['periodo_mes'] == '12':
+            carpeta_mes = "DICIEMBRE"
+    else:
+            carpeta_mes = "SIN ASIGNAR"
+
     asunto = driver.find_element(By.XPATH,"//input[contains(@name,'asunto')]")
     ActionChains(driver)\
         .move_to_element(asunto)\
         .click(asunto)\
         .pause(1)\
-        .send_keys("Boleta de remuneraciones de " + now.strftime('%B') + " del " + now.strftime('%Y'))\
+        .send_keys("Boleta de remuneraciones de " + carpeta_mes + " del " + config['PRODUCCION']['periodo_anio'])\
         .perform()
     
     mensaje = driver.find_element(By.XPATH,"//textarea[contains(@name,'notificacion_mensaje')]")
 
     
-    Plantilla = "Estimado trabajador %usuario% El presente es para saludarlo y a la vez remitirle adjunto la boleta de remuneraciones del mes de " + now.strftime('%B') + " " + now.strftime('%Y') + ", puede llamar al departamento de recursos humanos. Puede consultarlo en %url%"
+    Plantilla = "Estimado trabajador %usuario% El presente es para saludarlo y a la vez remitirle adjunto la boleta de remuneraciones del mes de " + carpeta_mes + " " + config['PRODUCCION']['periodo_anio'] + ", puede llamar al departamento de recursos humanos. Puede consultarlo en %url%"
  
     
     ###Estimado trabajador %usuario% El presente es para saludarlo y a la vez remitirle adjunto la boleta de remuneraciones del mes de <MES> <AÑO>, puede llamar al departamento de recursos humanos. Puede consultarlo en %url%"
@@ -172,9 +200,11 @@ def notificaCorreo():
     pyautogui.write("C:\\Users\\admrpa\\Documents\\SAP\\SAP GUI\\BOLETAS_CON_FIRMA\\2022\\JUNIO\\Boletas\\Boletas\\Test")
     time.sleep(4)
     pyautogui.hotkey("enter")
-    time.sleep(4)
+    time.sleep(2)
+    pyautogui.write("*[R].pdf")
+    time.sleep(2)
+    pyautogui.hotkey("enter")
     logging.info("Seleccionar todo")
-
     
     SelecttAllX,SelecttAllY  = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\EspacioBlanco.png", confidence=0.9)
     time.sleep(1)
@@ -195,6 +225,7 @@ def notificaCorreo():
     ActionChains(driver)\
         .click(seleccionar_archivos)\
         .perform()
+
     time.sleep(25)
 
 
