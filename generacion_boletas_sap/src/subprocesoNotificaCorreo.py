@@ -8,6 +8,9 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
+from datetime import datetime
+import locale
+
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.actions.action_builder import ActionBuilder
 from selenium.webdriver.common.actions.mouse_button import MouseButton
@@ -73,22 +76,31 @@ def notificaCorreo():
         .click(btn_notificacion)\
         .perform()
 
-    time.sleep(8)
+    time.sleep(9)
+
+    locale.setlocale(locale.LC_ALL, 'es-ES') 
+    now = datetime.now()
 
     asunto = driver.find_element(By.XPATH,"//input[contains(@name,'asunto')]")
     ActionChains(driver)\
         .move_to_element(asunto)\
         .click(asunto)\
         .pause(1)\
-        .send_keys("Boleta de remuneraciones de <MES> del <AÑO>")\
+        .send_keys("Boleta de remuneraciones de " + now.strftime('%B') + " del " + now.strftime('%Y'))\
         .perform()
     
     mensaje = driver.find_element(By.XPATH,"//textarea[contains(@name,'notificacion_mensaje')]")
+
+    
+    Plantilla = "Estimado trabajador %usuario% El presente es para saludarlo y a la vez remitirle adjunto la boleta de remuneraciones del mes de " + now.strftime('%B') + " " + now.strftime('%Y') + ", puede llamar al departamento de recursos humanos. Puede consultarlo en %url%"
+ 
+    
+    ###Estimado trabajador %usuario% El presente es para saludarlo y a la vez remitirle adjunto la boleta de remuneraciones del mes de <MES> <AÑO>, puede llamar al departamento de recursos humanos. Puede consultarlo en %url%"
     ActionChains(driver)\
         .move_to_element(mensaje)\
         .click(mensaje)\
         .pause(1)\
-        .send_keys("Estimado trabajador %usuario% El presente es para saludarlo y a la vez remitirle adjunto la boleta de remuneraciones del mes de <MES> <AÑO>, puede llamar al departamento de recursos humanos. Puede consultarlo en %url%")\
+        .send_keys(Plantilla)\
         .perform()
 
     time.sleep(3)
@@ -157,7 +169,7 @@ def notificaCorreo():
     pyautogui.click(filename)
 
     
-    pyautogui.write("C:\\Users\\admrpa\\Documents\\SAP\\SAP GUI\\BOLETAS_CON_FIRMA\\2022\\JUNIO\\Boletas\\Boletas")
+    pyautogui.write("C:\\Users\\admrpa\\Documents\\SAP\\SAP GUI\\BOLETAS_CON_FIRMA\\2022\\JUNIO\\Boletas\\Boletas\\Test")
     time.sleep(4)
     pyautogui.hotkey("enter")
     time.sleep(4)
@@ -187,11 +199,15 @@ def notificaCorreo():
 
 
     """"
-    seleccionar_archivos = driver.find_element(By.XPATH,"//span[@class='mat-button-wrapper'][contains(.,'Notificar')]")
+    Notificar = driver.find_element(By.XPATH,"//span[@class='mat-button-wrapper'][contains(.,'Notificar')]")
     ActionChains(driver)\
-        .click(seleccionar_archivos)\
+        .click(Notificar)\
         .perform()
     """
-    pyautogui.alert("El proceso termino con éxito")
+    time.sleep(1)
+
+    ###pyautogui.alert("El proceso termino con éxito")
+
+
 
     

@@ -77,7 +77,7 @@ def firmarBoletas():
     x_entrada = x_entrada + 552
     pyautogui.click(x_entrada,y_entrada)
     time.sleep(2)
-    ruta_boletas_sin_firma = str(config['PRODUCCION']['ruta_boletas_sin_firma']) + str(config['PRODUCCION']['periodo_anio']) + "\\"+carpeta_mes+"\\"
+    ruta_boletas_sin_firma = str(config['PRODUCCION']['ruta_boletas_sin_firma']) + str(config['PRODUCCION']['periodo_anio']) + "\\"+carpeta_mes+"\\Boletas"
     pyautogui.write(ruta_boletas_sin_firma)
     # Enter
     time.sleep(2)
@@ -85,7 +85,7 @@ def firmarBoletas():
 
 
     #Crear y validar si existe carpeta del MES actual donde se descargaran las boletas
-    ruta_boletas_con_firma = str(config['PRODUCCION']['ruta_boletas_con_firma']) + str(config['PRODUCCION']['periodo_anio']) + "\\"+carpeta_mes+"\\Boletas"
+    ruta_boletas_con_firma = str(config['PRODUCCION']['ruta_boletas_con_firma']) + str(config['PRODUCCION']['periodo_anio']) + "\\"+carpeta_mes+"\\"
     os.makedirs(ruta_boletas_con_firma, exist_ok=True)
 
     # Click para ingresar la ruta donde se almacenaran las boletas firmadas

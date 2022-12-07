@@ -7,6 +7,10 @@ import pyautogui
 import time
 import json
 
+from datetime import datetime
+
+import locale
+
 print(os.listdir(path="C:\\Users\\admrpa\\Documents\\SAP\\SAP GUI\\BOLETAS_CON_FIRMA\\2022\\JUNIO"))
 
 print(glob.glob("C:\\Users\\admrpa\\Documents\\SAP\\SAP GUI\\BOLETAS_CON_FIRMA\\2022\\JUNIO\*.pdf"))
@@ -27,6 +31,12 @@ pyautogui.hotkey("enter")
 time.sleep(4)
 ReprocesarArchivos = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\ProcesarArchivos.png", confidence=0.9)
 pyautogui.click(ReprocesarArchivos)
-"""
+
 time.sleep(4)
-pyautogui.hotkey('ctrl','a')
+pyautogui.hotkey('ctrl','a')"""
+
+locale.setlocale(locale.LC_ALL, 'es-ES') 
+now = datetime.now()
+Plantilla = "Estimado trabajador %usuario% El presente es para saludarlo y a la vez remitirle adjunto la boleta de remuneraciones del mes de " + now.strftime('%B') + " " + now.strftime('%Y') + ", puede llamar al departamento de recursos humanos. Puede consultarlo en %url%"
+    
+print(Plantilla)

@@ -11,14 +11,14 @@
             "cnx_contraseña" : "Fonafe_rpa01$",
             "trx_sap" : "ZHCM010"
         },
-        "ruta_logs" : "C:\\proyectos\\proyectoFonafe\\generacion_boletas_sap\\src\\logs",
+        "ruta_logs" : "C:\\Users\\admrpa\\Documents\\logs\\BotFonafe\\",
         "ruta_imagenes" : "C:\\Proyectos\\proyectoFonafe\\generacion_boletas_sap\\src\\imagenes",
         "ruta_boletas_sin_firma" : "C:\\Users\\admrpa\\Documents\\SAP\\SAP GUI\\BOLETAS_SIN_FIRMA\\",
         "ruta_boletas_con_firma" : "C:\\Users\\admrpa\\Documents\\SAP\\SAP GUI\\BOLETAS_CON_FIRMA\\",
         "periodo_mes" : "06",
         "periodo_anio" : "2022",
         "private_key_cert" : "Electro.123",
-        "tiempo_firma_boleta" : 10
+        "tiempo_firma_boleta" : 80
     }
  }
 

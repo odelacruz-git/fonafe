@@ -20,8 +20,9 @@ with open("C:\\Proyectos\\proyectoFonafe\\generacion_boletas_sap\\src\\config.js
 ruta_imagenes = str(config['PRODUCCION']['ruta_imagenes'])
 
 def main():
-
+    
     inicio = datetime.now()
+    time.sleep(2)
     log_string = inicio.strftime('%Y%m%d_%H%M%S')
     archivo_log = f'genera_notifica_boletas_{log_string}'
     print(archivo_log)
@@ -103,8 +104,6 @@ def main():
     except:
         logging.error(sys.exc_info())
         logging.error("Subproceso: Inicia Notifica boletas por correo terminó en error, por favor revisar")
-
-    pyautogui.alert("El proceso termino con éxito")
 
     fin = datetime.now()
 
