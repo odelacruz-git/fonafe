@@ -33,6 +33,7 @@ ruta_imagenes = str(config['PRODUCCION']['ruta_imagenes'])
 
 
 def notificaCorreo():
+    locale.setlocale(locale.LC_ALL, 'es-ES') 
     """ Este método realiza el inicio de sesión sobre el portal de notificación"""
 
     options = Options()
@@ -80,7 +81,7 @@ def notificaCorreo():
 
     time.sleep(9)
 
-    locale.setlocale(locale.LC_ALL, 'es-ES') 
+    
     now = datetime.now()
 
     # Asignar nombre del mes para crear carpeta donde se guardaran las boletas.

@@ -13,6 +13,7 @@ import subprocesoReafirma as spr
 import subprocesoSap as sps
 import subprocesoNotificaCorreo as spn
 from win32api import GetSystemMetrics
+import locale
 
 
 
@@ -23,7 +24,7 @@ with open("C:\\Users\\admrpa\\Documents\\GitHub\\fonafe\\generacion_boletas_sap\
 ruta_imagenes = str(config['PRODUCCION']['ruta_imagenes'])
 
 def main():
-    
+    locale.setlocale(locale.LC_ALL, 'es-ES') 
     print("Alto =", GetSystemMetrics(0))
     print("Ancho =", GetSystemMetrics(1))
 
@@ -37,9 +38,9 @@ def main():
         archivo_log = f'genera_notifica_boletas_{log_string}'
         print(archivo_log)
         path_log = str(config['PRODUCCION']['ruta_logs'])
-        logging.basicConfig(filename=f'{path_log}\\{archivo_log}.log', filemode='w', level=logging.DEBUG, format='%(asctime)-5s %(name)-5s - %(levelname)-5s - %(message)-5s')
-        logging.debug("========== Iniciando Proceso Automatizado ==========")
-        logging.debug("========== Generación y Emisión de Boletas ==========")   
+        logging.basicConfig(filename=f'{path_log}\\{archivo_log}.log', filemode='w', level=logging.INFO, format='%(asctime)-5s %(name)-5s - %(levelname)-5s - %(message)-5s')
+        logging.info("========== Iniciando Proceso Automatizado ==========")
+        logging.info("========== Generación y Emisión de Boletas ==========")   
 
     
         if os.path.exists(ruta_imagenes) == True:
@@ -64,7 +65,7 @@ def main():
         else:
             logging.info('Logueo exitoso en SAP')
         finally:
-            logging.debug('Termina subproceso: Logueo en SAP')
+            logging.info('Termina subproceso: Logueo en SAP')
 
         ## Inicia Generación de Boletas en SAP
         try:
@@ -76,7 +77,7 @@ def main():
         else:
             logging.info('subproceso culminado correctamente')
         finally:
-            logging.debug('Termina subproceso: Generar boletas en SAP')
+            logging.info('Termina subproceso: Generar boletas en SAP')
         
         ## Inicia Logout en SAP
         try:
@@ -88,7 +89,7 @@ def main():
         else:
             logging.info('Subproceso Logout en SAP ejecutado correctamente')
         finally:
-            logging.debug('Termina subproceso: Logout en SAP')
+            logging.info('Termina subproceso: Logout en SAP')
 
         ## Inicia abrirReafirma
         try:
