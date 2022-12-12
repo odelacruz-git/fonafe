@@ -64,11 +64,15 @@ def firmarBoletas():
     #x_password = x_password + 60
     pyautogui.click(x_btn_archivo, y_btn_archivo)
 
+    logging.info("Evento clic en Archivo")
+
     # Click en opción "Firmar por Lote"
     time.sleep(1)
     x_firma_lote, y_firma_lote = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\r_firmaLote_02.png", confidence=0.9)
     #x_password = x_password + 60
     pyautogui.click(x_firma_lote, y_firma_lote)
+
+    logging.info("Evento clic en Firma Lote")
 
     # Click para ingresar la ruta donde leeremos las boletas a firmar
     time.sleep(2)
@@ -77,6 +81,9 @@ def firmarBoletas():
     x_entrada = x_entrada + 552
     pyautogui.click(x_entrada,y_entrada)
     time.sleep(2)
+
+    logging.info("Evento clic ingresar la ruta donde leeremos las boletas a firmar")
+
     ruta_boletas_sin_firma = str(config['PRODUCCION']['ruta_boletas_sin_firma']) + str(config['PRODUCCION']['periodo_anio']) + "\\"+carpeta_mes+"\\Boletas"
     pyautogui.write(ruta_boletas_sin_firma)
     # Enter
@@ -88,6 +95,8 @@ def firmarBoletas():
     ruta_boletas_con_firma = str(config['PRODUCCION']['ruta_boletas_con_firma']) + str(config['PRODUCCION']['periodo_anio']) + "\\"+carpeta_mes+"\\"
     os.makedirs(ruta_boletas_con_firma, exist_ok=True)
 
+    logging.info("Evento Crear y validar si existe carpeta del MES actual donde se descargaran las boletas")
+
     # Click para ingresar la ruta donde se almacenaran las boletas firmadas
     time.sleep(2)
     x_salida, y_salida = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\r_salida_04.png", confidence=0.9)
@@ -96,6 +105,9 @@ def firmarBoletas():
     pyautogui.click(x_salida,y_salida)
     time.sleep(2)
     pyautogui.write(ruta_boletas_con_firma)
+
+    logging.info("Evento clic para ingresar la ruta donde se almacenaran las boletas firmadas")
+
     # Enter
     time.sleep(2)
     pyautogui.press('enter')
@@ -106,6 +118,8 @@ def firmarBoletas():
     print(x_certificado,y_certificado)
     pyautogui.click(x_certificado,y_certificado)
     time.sleep(2)
+
+    logging.info("Evento seleccionar el certificado digital generado por reniec")
 
     ##Obviamos la selección de la imagen de la firma.
 
@@ -124,6 +138,9 @@ def firmarBoletas():
 
      # Click en el boton firmar
     time.sleep(2)
+
+    logging.info("Evento Aceptar")
+
     x_firmar, y_firmar = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\r_escribir_acepto_firmar.png", confidence=0.9)
     print(x_firmar,y_firmar)
     x_firmar = x_firmar + 140
@@ -159,3 +176,4 @@ def firmarBoletas():
     print(x_cerrar,y_cerrar)
     pyautogui.click(x_cerrar,y_cerrar)
     time.sleep(2)
+    logging.info("Evento cerrar Refirma")

@@ -18,7 +18,9 @@
         "periodo_mes" : "05",
         "periodo_anio" : "2022",
         "private_key_cert" : "Electro.123",
-        "tiempo_firma_boleta" : 80
+        "tiempo_firma_boleta" : 80,
+        "Alto_Resolucion": 1920,
+        "Ancho_Resolucion": 1080
     }
  }
 

@@ -70,6 +70,8 @@ def notificaCorreo():
 
     time.sleep(1.5)
 
+    logging.info("Evento ingresar a Notifica")
+
     btn_notificacion = driver.find_element(By.XPATH,"(//span[@class='sidebar-normal'][contains(.,'Notificacion')])[1]")
     ActionChains(driver)\
         .move_to_element(btn_notificacion)\
@@ -116,6 +118,8 @@ def notificaCorreo():
         .pause(1)\
         .send_keys("Boleta de remuneraciones de " + carpeta_mes + " del " + config['PRODUCCION']['periodo_anio'])\
         .perform()
+
+    logging.info("Evento ingresar a Boleta de remuneración")
     
     mensaje = driver.find_element(By.XPATH,"//textarea[contains(@name,'notificacion_mensaje')]")
 
@@ -133,6 +137,8 @@ def notificaCorreo():
 
     time.sleep(3)
 
+    logging.info("Evento ingresar mensaje de plantilla")
+
     ## Seleccionar Categoria
     categoria = driver.find_element(By.XPATH,"//span[@class='ng-tns-c79-3 ng-star-inserted'][contains(.,'Seleccione una Categoría')]")
     ActionChains(driver)\
@@ -142,6 +148,8 @@ def notificaCorreo():
 
     time.sleep(1.5)
 
+    logging.info("Evento ingresar Categoria")
+
     cat_boleta = driver.find_element(By.XPATH,"//span[@class='mat-option-text'][contains(.,'Boleta')]")
     ActionChains(driver)\
         .move_to_element(cat_boleta)\
@@ -149,6 +157,8 @@ def notificaCorreo():
         .perform()
 
     time.sleep(1.5)
+
+    logging.info("Evento ingresar Boleta")
 
     ## Seleccionar Canal
     canal = driver.find_element(By.XPATH,"//span[@class='ng-tns-c79-5 ng-star-inserted'][contains(.,'Seleccione Documento')]")
@@ -159,6 +169,8 @@ def notificaCorreo():
 
     time.sleep(1.5)
 
+    logging.info("Evento ingresar Canal")
+
     canal_email = driver.find_element(By.XPATH,"//span[@class='mat-option-text'][contains(.,'email')]")
     ActionChains(driver)\
         .move_to_element(canal_email)\
@@ -166,6 +178,8 @@ def notificaCorreo():
         .perform()
 
     time.sleep(1.5)
+
+    logging.info("Evento ingresar Canal email")
 
     ## Seleccionar Indice
     indice = driver.find_element(By.XPATH,"//span[@class='ng-tns-c79-7 ng-star-inserted'][contains(.,'Seleccione Documento')]")
@@ -176,6 +190,8 @@ def notificaCorreo():
 
     time.sleep(1.5)
 
+    logging.info("Evento ingresar Indice")
+
     indice_codsap = driver.find_element(By.XPATH,"//span[@class='mat-option-text'][contains(.,'CODSAP')]")
     ActionChains(driver)\
         .move_to_element(indice_codsap)\
@@ -183,6 +199,8 @@ def notificaCorreo():
         .perform()
     
     time.sleep(3)
+
+    logging.info("Evento ingresar indice codsap")
 
     ##Cargar carpeta de boletas
     seleccionar_archivos = driver.find_element(By.XPATH,"//input[contains(@type,'file')]")
@@ -192,7 +210,8 @@ def notificaCorreo():
     
     time.sleep(6)
 
-    
+    logging.info("Evento seleccionar archivos")
+
     filename = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\file_name.png", confidence=0.9)
     pyautogui.click(filename)
 
@@ -204,6 +223,7 @@ def notificaCorreo():
     pyautogui.write("*[R].pdf")
     time.sleep(2)
     pyautogui.hotkey("enter")
+
     logging.info("Seleccionar todo")
     
     SelecttAllX,SelecttAllY  = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\EspacioBlanco.png", confidence=0.9)
@@ -226,6 +246,8 @@ def notificaCorreo():
         .click(seleccionar_archivos)\
         .perform()
 
+    logging.info("Evento clic en reprocesar")
+
     time.sleep(25)
 
 
@@ -236,6 +258,8 @@ def notificaCorreo():
         .perform()
     """
     time.sleep(1)
+
+    logging.info("Evento clic en notificar")
 
     ###pyautogui.alert("El proceso termino con éxito")
 

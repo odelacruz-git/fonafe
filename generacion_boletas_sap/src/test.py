@@ -13,6 +13,13 @@ from datetime import datetime
 
 import locale
 
+import ctypes
+
+from win32api import GetSystemMetrics
+
+print("Ancho =", GetSystemMetrics(0))
+print("Alto =", GetSystemMetrics(1))
+
 """
 print(os.listdir(path="C:\\Users\\admrpa\\Documents\\SAP\\SAP GUI\\BOLETAS_CON_FIRMA\\2022\\JUNIO"))
 
@@ -35,7 +42,7 @@ ReprocesarArchivos = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\ProcesarA
 pyautogui.click(ReprocesarArchivos)
 
 time.sleep(4)
-pyautogui.hotkey('ctrl','a')"""
+pyautogui.hotkey('ctrl','a')
 
 locale.setlocale(locale.LC_ALL, 'es-ES') 
 now = datetime.now()
