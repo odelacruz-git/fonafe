@@ -20,6 +20,18 @@ from win32api import GetSystemMetrics
 print("Ancho =", GetSystemMetrics(0))
 print("Alto =", GetSystemMetrics(1))
 
+
+Contador = 0
+ActividadExitosa = False
+while Contador<30 and ActividadExitosa==False:
+    try:
+        print("Alto =", GetSystemMetrics(1))
+        time.sleep(1)
+    except:
+        logging.error("TRAY")
+    Contador += 1
+
+        
 """
 print(os.listdir(path="C:\\Users\\admrpa\\Documents\\SAP\\SAP GUI\\BOLETAS_CON_FIRMA\\2022\\JUNIO"))
 

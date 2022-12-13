@@ -24,7 +24,7 @@ with open("C:\\Users\\admrpa\\Documents\\GitHub\\fonafe\\generacion_boletas_sap\
 ruta_imagenes = str(config['PRODUCCION']['ruta_imagenes'])
 
 def main():
-    locale.setlocale(locale.LC_ALL, 'es-ES') 
+    ###locale.setlocale(locale.LC_ALL, 'es-ES') 
     print("Alto =", GetSystemMetrics(0))
     print("Ancho =", GetSystemMetrics(1))
 
@@ -114,6 +114,7 @@ def main():
             logging.info("Inicia subproceso: Inicia  Notifica boletas por correo")
             spn.notificaCorreo()
         except:
+            print(sys.exc_info())
             logging.error(sys.exc_info())
             logging.error("Subproceso: Inicia Notifica boletas por correo terminó en error, por favor revisar")
 

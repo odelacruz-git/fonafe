@@ -88,15 +88,15 @@ def loginSAP():
   
     # Click en el menu de opciones de ventana
     time.sleep(1)
-    option = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\options.png", confidence=0.9)
-    pyautogui.click(option)
-    logging.info("Evento clic en botón 'Opciones', con posición " + str(option))
+    x_option, y_option = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\options.png", confidence=0.9)
+    pyautogui.click(x_option,y_option)
+    logging.info("Evento clic en botón 'Opciones', con posición " + str(x_option) + " - " + str(y_option))
 
     # Maximizar menu princiapl SAP Easy Access (opcional) Puede que ya aparezca maximizado
     time.sleep(1)
-    maximiza_sap = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\maximiza_sap.png", confidence=0.9)
-    pyautogui.click(maximiza_sap)
-    logging.info("Evento clic en botón 'Maximizar', con posición " + str(maximiza_sap))
+    x_maximiza_sap, y_maximiza_sap = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\maximiza_sap.png", confidence=0.9)
+    pyautogui.click(x_maximiza_sap,y_maximiza_sap)
+    logging.info("Evento clic en botón 'Maximizar', con posición " + str(x_maximiza_sap) + " - " + str(y_maximiza_sap))
 
     # Ingresar Numero de transacción (Generacion Boletas de Pago)
     time.sleep(1)
@@ -112,16 +112,21 @@ def loginSAP():
     x_user = x_user + 60
     pyautogui.click(x_user, y_user)
     pyautogui.write(config['PRODUCCION']['conexionSAP']['cnx_usuario'])
+
     logging.info("Evento ubicar y escribir el username, en posicion: " + str(x_user) + " - " + str(y_user))
 
     # Ubicarse y escribir el password
     time.sleep(1)
     x_password, y_password = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\password.png", confidence=0.9)
     x_password = x_password + 60
+
     pyautogui.click(x_password, y_password)
+
     pyautogui.write(config['PRODUCCION']['conexionSAP']['cnx_contraseña'])
     time.sleep(1)
     pyautogui.hotkey("enter")
+
+
     logging.info("Evento ubicar y escribir password, en posicion: " + str(x_password) + " - " + str(y_password))
 
 def generarBoletaSAP():
@@ -179,27 +184,33 @@ def generarBoletaSAP():
 
     # Seleccionar radio button "Archivo pdf" y desactivar checkbox "PDF Unico"
     time.sleep(1)
-    archivo_pdf = pyautogui.locateCenterOnScreen(
+    x_archivo_pdf, y_archivo_pdf = pyautogui.locateCenterOnScreen(
         ruta_imagenes + "\\archivo_pdf.png",
         confidence=0.9)
-    pyautogui.click(archivo_pdf)
+    pyautogui.click(x_archivo_pdf,y_archivo_pdf)
 
-    logging.info("Evento seleccionar 'Archivo pdf', en posicion: " + str(archivo_pdf))
+    logging.info("Evento seleccionar 'Archivo pdf', en posicion: " + str(x_archivo_pdf) + " - " + str(y_archivo_pdf))
 
     time.sleep(1)
-    pdf_unico = pyautogui.locateCenterOnScreen(
+    x_pdf_unico, y_pdf_unico = pyautogui.locateCenterOnScreen(
         ruta_imagenes + "\\pdf_unico.png",
         confidence=0.9)
-    pyautogui.click(pdf_unico)
+    pyautogui.click(x_pdf_unico,y_pdf_unico)
 
-    logging.info("Evento desactivar 'PDF Unico', en posicion: " + str(pdf_unico))
+    logging.info("Evento desactivar 'PDF Unico', en posicion: " + str(x_pdf_unico) + " - " + str(y_pdf_unico))
 
     #Crear y validar si existe carpeta del MES actual donde se descargaran las boletas
     ruta_descarga = str(config['PRODUCCION']['ruta_boletas_sin_firma']) + str(config['PRODUCCION']['periodo_anio']) + "\\"+carpeta_mes+"\\"
     logging.info("ruta de descarga es: " + ruta_descarga)
-    os.makedirs(ruta_descarga, exist_ok=True)
 
 
+    if (os.path.exists(ruta_descarga)==False):
+        os.makedirs(ruta_descarga, exist_ok=True)
+        logging.info("Evento: Crear ruta de descarga: " + ruta_descarga)
+    else:
+        logging.info("Evento: Ruta de descarga ya estaba creada" + ruta_descarga)
+
+  
     #colocar ruta de descarga boletas y ejecutar proceso con f8
     time.sleep(2)
     x_ruta_descarga, y_ruta_descarga = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\ruta_descarga.png", confidence=0.9)
@@ -212,22 +223,30 @@ def generarBoletaSAP():
     logging.info("Evento Colocar ruta de descarga boletas, en posicion: " + str(x_ruta_descarga) + " - " + str(y_ruta_descarga))
 
     # Reconocer icono OK de culminación del proceso de descarga
-    mensaje_final_error = pyautogui.locateCenterOnScreen(
-        ruta_imagenes + "\\mensaje_final_error.png",
-        confidence=0.9) 
-    print(mensaje_final_error)
-    if mensaje_final_error != None :
-        logging.info("Las boletas NO se descargaron correctamente, se creo la carpeta del MES pero se encuentra vacía, por favor validarl os parametros ingresados")
-    else:
-        time.sleep(70)
-        mensaje_final_ok = pyautogui.locateCenterOnScreen(
-        ruta_imagenes + "\\mensaje_final_ok.png",
-        confidence=0.9)
-        print(mensaje_final_ok)
-        if mensaje_final_ok != None:
-            logging.info("Las boletas se descargaron correctamente en " + ruta_descarga)
-        else:
-            logging.warning("No apareció el icono de proceso culminado correctamente en SAP, por favor revisar el log")  
+    Contador = 0
+    ActividadExitosa = False
+    while Contador<300 and ActividadExitosa==False:
+        try:
+            mensaje_final_error = pyautogui.locateCenterOnScreen(
+                ruta_imagenes + "\\mensaje_final_error.png",
+                confidence=0.9) 
+            print(mensaje_final_error)
+            if mensaje_final_error != None :
+                logging.info("Las boletas NO se descargaron correctamente, se creo la carpeta del MES pero se encuentra vacía, por favor validarl os parametros ingresados")
+            else:
+                time.sleep(1)
+                mensaje_final_ok = pyautogui.locateCenterOnScreen(
+                ruta_imagenes + "\\mensaje_final_ok.png",
+                confidence=0.9)
+                print(mensaje_final_ok)
+                if mensaje_final_ok != None:
+                    logging.info("Las boletas se descargaron correctamente en " + ruta_descarga)
+                    ActividadExitosa=True
+                else:
+                    logging.warning("No apareció el icono de proceso culminado correctamente en SAP, por favor revisar el log")  
+        except:
+                print("Reintento")
+        Contador += 1
 
 
 def closeSap():
@@ -238,14 +257,14 @@ def closeSap():
     pyautogui.hotkey('alt', 'f4')
 
     time.sleep(1)
-    salir = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\salir.png", confidence=0.9)
-    pyautogui.click(salir)
+    x_salir, y_salir = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\salir.png", confidence=0.9)
+    pyautogui.click(x_salir,y_salir)
 
-    logging.info("Evento cerrar SAP, en posicion: " + str(salir))
+    logging.info("Evento cerrar SAP, en posicion: " + str(x_salir) + " - " + str(y_salir))
 
     time.sleep(1)
-    cerrar_logon = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\cerrar_logon.png", confidence=0.9)
-    pyautogui.click(cerrar_logon)
+    x_cerrar_logon, y_cerrar_logon = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\cerrar_logon.png", confidence=0.9)
+    pyautogui.click(x_cerrar_logon,y_cerrar_logon)
 
-    logging.info("Evento confirmar cerrar SAP, en posicion: " + str(cerrar_logon))
+    logging.info("Evento confirmar cerrar SAP, en posicion: " + str(x_cerrar_logon) + " - " + str(y_cerrar_logon))
 

@@ -157,19 +157,29 @@ def firmarBoletas():
 
     ## Se asigna un tiempo considerando la cantidad de boletas, en promedio 1s cada 2 boletas. (El tiempo se encuentra en el archivo Config.json)
 
-    time.sleep(config['PRODUCCION']['tiempo_firma_boleta'])
+    ##time.sleep(config['PRODUCCION']['tiempo_firma_boleta'])
 
-    proceso_finalizado = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\r_proceso_finalizado_12.png", confidence=0.9) 
-    if proceso_finalizado != None:
-            print("La firma por lote dio como resultado PROCESO FINALIZADO")
-            time.sleep(2)
-            ##Presionar Enter para ir al siguiente VER REPORTE
-            x_reporte, y_reporte = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\ver_reporte.png", confidence=0.9)
-            print(x_reporte,y_reporte)
-            pyautogui.click(x_reporte,y_reporte)
-            time.sleep(2)
-    else:
-            print("REFIRMA no mostró el mensaje PROCESO FINALIZADO, por favor revisar el log")
+
+    Contador = 0
+    ActividadExitosa = False
+    while Contador<300 and ActividadExitosa==False:
+        try:
+            proceso_finalizado = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\r_proceso_finalizado_12.png", confidence=0.9) 
+            if proceso_finalizado != None:
+                print("La firma por lote dio como resultado PROCESO FINALIZADO")
+                time.sleep(2)
+                ##Presionar Enter para ir al siguiente VER REPORTE
+                x_reporte, y_reporte = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\ver_reporte.png", confidence=0.9)
+                print(x_reporte,y_reporte)
+                pyautogui.click(x_reporte,y_reporte)
+                time.sleep(2)
+                ActividadExitosa=True
+            else:
+                print("REFIRMA no mostró el mensaje PROCESO FINALIZADO")
+                time.sleep(1)
+        except:
+                print("Reintento por excepcion")
+        Contador += 1
 
     ## Click en cerrar REFIRMA.
     x_cerrar, y_cerrar = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\r_cierra_refirma.png", confidence=0.9)
@@ -177,3 +187,4 @@ def firmarBoletas():
     pyautogui.click(x_cerrar,y_cerrar)
     time.sleep(2)
     logging.info("Evento cerrar Refirma")
+

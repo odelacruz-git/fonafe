@@ -9,7 +9,6 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 from datetime import datetime
-import locale
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.actions.action_builder import ActionBuilder
@@ -33,9 +32,8 @@ ruta_imagenes = str(config['PRODUCCION']['ruta_imagenes'])
 
 
 def notificaCorreo():
-    locale.setlocale(locale.LC_ALL, 'es-ES') 
+     
     """ Este método realiza el inicio de sesión sobre el portal de notificación"""
-
     options = Options()
     options.add_argument("start-maximized")
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
@@ -123,12 +121,12 @@ def notificaCorreo():
     logging.info("Evento ingresar a Boleta de remuneración")
     
     mensaje = driver.find_element(By.XPATH,"//textarea[contains(@name,'notificacion_mensaje')]")
+ 
 
-    
     Plantilla = "Estimado trabajador %usuario% El presente es para saludarlo y a la vez remitirle adjunto la boleta de remuneraciones del mes de " + carpeta_mes + " " + config['PRODUCCION']['periodo_anio'] + ", puede llamar al departamento de recursos humanos. Puede consultarlo en %url%"
  
-    
-    ###Estimado trabajador %usuario% El presente es para saludarlo y a la vez remitirle adjunto la boleta de remuneraciones del mes de <MES> <AÑO>, puede llamar al departamento de recursos humanos. Puede consultarlo en %url%"
+
+    ###Escribir mensaje para plantilla
     ActionChains(driver)\
         .move_to_element(mensaje)\
         .click(mensaje)\
