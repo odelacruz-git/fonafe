@@ -23,13 +23,17 @@ with open("C:\\Users\\admrpa\\Documents\\GitHub\\fonafe\\generacion_boletas_sap\
 ### Establecemos donde se guardarán las imagenes en la variable
 ruta_imagenes = str(config['PRODUCCION']['ruta_imagenes'])
 
+
 def main():
-    ###locale.setlocale(locale.LC_ALL, 'es-ES') 
     print("Alto =", GetSystemMetrics(0))
     print("Ancho =", GetSystemMetrics(1))
 
+    print(sys.getdefaultencoding())
+
     ancho = config['PRODUCCION']['Ancho_Resolucion']
     alto = config['PRODUCCION']['Alto_Resolucion']
+
+    print('\nLocale from environment:', locale.getlocale())
 
     if(ancho == GetSystemMetrics(1) and alto == GetSystemMetrics(0)):
         inicio = datetime.now()
@@ -38,7 +42,7 @@ def main():
         archivo_log = f'genera_notifica_boletas_{log_string}'
         print(archivo_log)
         path_log = str(config['PRODUCCION']['ruta_logs'])
-        logging.basicConfig(filename=f'{path_log}\\{archivo_log}.log', filemode='w', level=logging.INFO, format='%(asctime)-5s %(name)-5s - %(levelname)-5s - %(message)-5s')
+        logging.basicConfig(filename=f'{path_log}\\{archivo_log}.log', filemode='w', level=logging.INFO, encoding='latin1', format='%(asctime)-5s %(name)-5s - %(levelname)-5s - %(message)-5s')
         logging.info("========== Iniciando Proceso Automatizado ==========")
         logging.info("========== Generación y Emisión de Boletas ==========")   
 

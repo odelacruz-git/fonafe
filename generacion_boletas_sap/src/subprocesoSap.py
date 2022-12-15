@@ -230,7 +230,6 @@ def generarBoletaSAP():
             mensaje_final_error = pyautogui.locateCenterOnScreen(
                 ruta_imagenes + "\\mensaje_final_error.png",
                 confidence=0.9) 
-            print(mensaje_final_error)
             if mensaje_final_error != None :
                 logging.info("Las boletas NO se descargaron correctamente, se creo la carpeta del MES pero se encuentra vacía, por favor validarl os parametros ingresados")
             else:
