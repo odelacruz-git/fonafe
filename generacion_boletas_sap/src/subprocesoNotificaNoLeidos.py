@@ -86,193 +86,61 @@ def notificaCorreonoleidos():
 
     time.sleep(9)
 
-    
+    #Captura datos de tablero y evalua boletas generadas hasta encontrar la primer boleta creada y enviada
     tablero = driver.find_element(By.XPATH,"//div[@class='col-sm-12'][contains(.,'IDFecha CreacionFecha EnvioResultadoCanalCategoriaAccionesIDFecha CreacionFecha EnvioResultadoCanalCategoria Acciones10114/12/2022 11:46:17emailBoleta10014/12/2022 11:38:45emailBoleta9914/12/2022 11:03:49emailBoleta9814/12/2022 10:56:28emailBoleta9714/12/2022 10:40:21emailBoleta9614/12/2022 10:26:05emailBoleta9513/12/2022 18:20:20emailBoleta9413/12/2022 17:57:33emailBoleta9313/12/2022 17:30:03emailBoleta9212/12/2022 17:35:43emailBoleta')]")
+    indiceTablero = 1
+    EncontroBoletasEnviadas = False
+    while EncontroBoletasEnviadas==False:
+        try:
+            fechaCreacion = driver.find_element(By.XPATH,"//tbody/tr["+ str(indiceTablero) +"]/td[2]")
+            fechaEnvio = driver.find_element(By.XPATH,"//tbody/tr["+ str(indiceTablero) +"]/td[3]")
+            print(str(indiceTablero)+ " - " + str(fechaCreacion.text) + " - " + str(fechaEnvio.text))
+            if fechaCreacion.text != "" and fechaEnvio.text != "":
+                print(str(indiceTablero))
+                btn_acciones = driver.find_element(By.XPATH,"//tbody/tr["+ str(indiceTablero) +"]/td[7]/p[1]/a[1]/i[1]")
+                ActionChains(driver)\
+                    .move_to_element(btn_acciones)\
+                    .click(btn_acciones)\
+                    .perform()
+                EncontroBoletasEnviadas = True
+            else:
+                print(str(indiceTablero))
+        except:
+            btn_acciones = driver.find_element(By.XPATH,"//a[contains(text(),'Siguiente')]")
+            ActionChains(driver)\
+                .move_to_element(btn_acciones)\
+                .click(btn_acciones)\
+                .perform()
+            time.sleep(1)
+            indiceTablero = 1
+        indiceTablero = indiceTablero + 1
 
-    ##print(tablero.text)
-
-    for x in str(tablero):
-        print(x)
-
-    now = datetime.now()
-
-    # Asignar nombre del mes para crear carpeta donde se guardaran las boletas.
-    if config['PRODUCCION']['periodo_mes'] == '01':
-            carpeta_mes = "ENERO"
-    elif config['PRODUCCION']['periodo_mes'] == '02':
-            carpeta_mes = "FEBRERO"
-    elif config['PRODUCCION']['periodo_mes'] == '03':
-            carpeta_mes = "MARZO"
-    elif config['PRODUCCION']['periodo_mes'] == '04':
-            carpeta_mes = "ABRIL"
-    elif config['PRODUCCION']['periodo_mes'] == '05':
-            carpeta_mes = "MAYO"
-    elif config['PRODUCCION']['periodo_mes'] == '06':
-            carpeta_mes = "JUNIO"
-    elif config['PRODUCCION']['periodo_mes'] == '07':
-            carpeta_mes = "JULIO"
-    elif config['PRODUCCION']['periodo_mes'] == '08':
-            carpeta_mes = "AGOSTO"
-    elif config['PRODUCCION']['periodo_mes'] == '09':
-            carpeta_mes = "SETIEMBRE"
-    elif config['PRODUCCION']['periodo_mes'] == '10':
-            carpeta_mes = "OCTUBRE"
-    elif config['PRODUCCION']['periodo_mes'] == '11':
-            carpeta_mes = "NOVIEMBRE"
-    elif config['PRODUCCION']['periodo_mes'] == '12':
-            carpeta_mes = "DICIEMBRE"
-    else:
-            carpeta_mes = "SIN ASIGNAR"
-
-    asunto = driver.find_element(By.XPATH,"//input[contains(@name,'asunto')]")
-    ActionChains(driver)\
-        .move_to_element(asunto)\
-        .click(asunto)\
-        .pause(1)\
-        .send_keys("Boleta de remuneraciones de " + carpeta_mes + " del " + config['PRODUCCION']['periodo_anio'])\
-        .perform()
-
-    logging.info("Evento ingresar a Boleta de remuneración")
-    
-    mensaje = driver.find_element(By.XPATH,"//textarea[contains(@name,'notificacion_mensaje')]")
- 
-
-    Plantilla = "Estimado trabajador %usuario% El presente es para saludarlo y a la vez remitirle adjunto la boleta de remuneraciones del mes de " + carpeta_mes + " " + config['PRODUCCION']['periodo_anio'] + ", puede llamar al departamento de recursos humanos. Puede consultarlo en %url%"
- 
-
-    ###Escribir mensaje para plantilla
-    ActionChains(driver)\
-        .move_to_element(mensaje)\
-        .click(mensaje)\
-        .pause(1)\
-        .send_keys(Plantilla)\
-        .perform()
-
-    time.sleep(3)
-
-    logging.info("Evento ingresar mensaje de plantilla")
-
-    ## Seleccionar Categoria
-    categoria = driver.find_element(By.XPATH,"//span[@class='ng-tns-c79-3 ng-star-inserted'][contains(.,'Seleccione una Categoría')]")
-    ActionChains(driver)\
-        .move_to_element(categoria)\
-        .click(categoria)\
-        .perform()
-
-    time.sleep(1.5)
-
-    logging.info("Evento ingresar Categoria")
-
-    cat_boleta = driver.find_element(By.XPATH,"//span[@class='mat-option-text'][contains(.,'Boleta')]")
-    ActionChains(driver)\
-        .move_to_element(cat_boleta)\
-        .click(cat_boleta)\
-        .perform()
-
-    time.sleep(1.5)
-
-    logging.info("Evento ingresar Boleta")
-
-    ## Seleccionar Canal
-    canal = driver.find_element(By.XPATH,"//span[@class='ng-tns-c79-5 ng-star-inserted'][contains(.,'Seleccione Documento')]")
-    ActionChains(driver)\
-        .move_to_element(canal)\
-        .click(canal)\
-        .perform()
-
-    time.sleep(1.5)
-
-    logging.info("Evento ingresar Canal")
-
-    canal_email = driver.find_element(By.XPATH,"//span[@class='mat-option-text'][contains(.,'email')]")
-    ActionChains(driver)\
-        .move_to_element(canal_email)\
-        .click(canal_email)\
-        .perform()
-
-    time.sleep(1.5)
-
-    logging.info("Evento ingresar Canal email")
-
-    ## Seleccionar Indice
-    indice = driver.find_element(By.XPATH,"//span[@class='ng-tns-c79-7 ng-star-inserted'][contains(.,'Seleccione Documento')]")
-    ActionChains(driver)\
-        .move_to_element(indice)\
-        .click(indice)\
-        .perform()
-
-    time.sleep(1.5)
-
-    logging.info("Evento ingresar Indice")
-
-    indice_codsap = driver.find_element(By.XPATH,"//span[@class='mat-option-text'][contains(.,'CODSAP')]")
-    ActionChains(driver)\
-        .move_to_element(indice_codsap)\
-        .click(indice_codsap)\
-        .perform()
-    
-    time.sleep(3)
-
-    logging.info("Evento ingresar indice codsap")
-
-    ##Cargar carpeta de boletas
-    seleccionar_archivos = driver.find_element(By.XPATH,"//input[contains(@type,'file')]")
-    ActionChains(driver)\
-        .click(seleccionar_archivos)\
-        .perform()
-    
-    time.sleep(6)
-
-    logging.info("Evento seleccionar archivos")
-
-    filename = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\file_name.png", confidence=0.9)
-    pyautogui.click(filename)
-
-    
-    pyautogui.write("C:\\Users\\admrpa\\Documents\\SAP\\SAP GUI\\BOLETAS_CON_FIRMA\\2022\\JUNIO\\Boletas\\Boletas\\Test")
-    time.sleep(4)
-    pyautogui.hotkey("enter")
-    time.sleep(2)
-    pyautogui.write("*[R].pdf")
-    time.sleep(2)
-    pyautogui.hotkey("enter")
-
-    logging.info("Seleccionar todo")
-    
-    SelecttAllX,SelecttAllY  = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\EspacioBlanco.png", confidence=0.9)
-    time.sleep(1)
-    SelecttAllY += 80
-    pyautogui.click(SelecttAllX, SelecttAllY)
-    time.sleep(1)
-    pyautogui.hotkey('ctrl','a')
     time.sleep(2)
 
-    pyautogui.hotkey("enter")
+    indiceNotificaciones = 1
+    EncontroBoletasEnviadas = False
+    while EncontroBoletasEnviadas==False:
+        try: 
+            fechaLectura = driver.find_element(By.XPATH,"//tbody/tr["+ str(indiceNotificaciones) +"]/td[3]")
+            print(str(indiceTablero)+ " - " + str(fechaLectura.text))
+            if fechaLectura.text != "":
+                NombreEmpleado = driver.find_element(By.XPATH,"//tbody/tr["+ str(indiceNotificaciones) +"]/td[4]")
+                print(str(NombreEmpleado.text))
+                #Enviar correo
+                EncontroBoletasEnviadas = True
+            else:
+                print(str(indiceNotificaciones))
+        except:
+            btn_acciones = driver.find_element(By.XPATH,"//a[contains(text(),'Siguiente')]")
+            ActionChains(driver)\
+                .move_to_element(btn_acciones)\
+                .click(btn_acciones)\
+                .perform()
+            time.sleep(1)
+            indiceNotificaciones = 1
+        indiceNotificaciones = indiceNotificaciones + 1
 
-    time.sleep(4)
-    ReprocesarArchivos = pyautogui.locateCenterOnScreen(ruta_imagenes + "\\ProcesarArchivos.png", confidence=0.9)
-    pyautogui.click(ReprocesarArchivos)
-    
-
-    seleccionar_archivos = driver.find_element(By.XPATH,"//span[@class='mat-button-wrapper'][contains(.,'Preprocesar Archivos')]")
-    ActionChains(driver)\
-        .click(seleccionar_archivos)\
-        .perform()
-
-    logging.info("Evento clic en reprocesar")
-
-    time.sleep(25)
-
-
-    """"
-    Notificar = driver.find_element(By.XPATH,"//span[@class='mat-button-wrapper'][contains(.,'Notificar')]")
-    ActionChains(driver)\
-        .click(Notificar)\
-        .perform()
-    """
-    time.sleep(1)
-
-    logging.info("Evento clic en notificar")
+    logging.info("Evento notificar")
 
     ###pyautogui.alert("El proceso termino con éxito")
 
