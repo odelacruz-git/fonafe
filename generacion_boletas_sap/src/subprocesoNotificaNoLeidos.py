@@ -117,20 +117,24 @@ def notificaCorreonoleidos():
 
     time.sleep(2)
 
+    NuevaVentana = driver.window_handles[1]
+    driver.switch_to.window(NuevaVentana)
+
     indiceNotificaciones = 1
     EncontroBoletasEnviadas = False
     while EncontroBoletasEnviadas==False:
         try: 
             fechaLectura = driver.find_element(By.XPATH,"//tbody/tr["+ str(indiceNotificaciones) +"]/td[3]")
             print(str(indiceTablero)+ " - " + str(fechaLectura.text))
-            if fechaLectura.text != "":
+            if fechaLectura.text == "":
+                print("Se encontro uno que no lee")
                 NombreEmpleado = driver.find_element(By.XPATH,"//tbody/tr["+ str(indiceNotificaciones) +"]/td[4]")
                 print(str(NombreEmpleado.text))
                 #Enviar correo
-                EncontroBoletasEnviadas = True
             else:
                 print(str(indiceNotificaciones))
         except:
+            EncontroBoletasEnviadas = True
             btn_acciones = driver.find_element(By.XPATH,"//a[contains(text(),'Siguiente')]")
             ActionChains(driver)\
                 .move_to_element(btn_acciones)\

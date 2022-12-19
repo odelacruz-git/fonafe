@@ -21,11 +21,31 @@ from lackey import click
 import subprocesoSap as sps
 from win32api import GetSystemMetrics
 
+from email.message import EmailMessage
+import smtplib
+
+remitente = 'renato2806@hotmail.com'
+destinatario = 'zeratulzito@gmail.com'
+mensaje = "Esto es una prueba"
+
+email = EmailMessage()
+email["From"] = remitente
+email["To"] = destinatario
+email["Subject"]="Esto es una prueba"
+
+email.set_content(mensaje)
+smtp = smtplib.SMTP("smtp-mail.outlook.com", port=587)
+smtp.starttls()
+
+smtp.login(remitente,"")
+
+smtp.sendmail(remitente,destinatario,email.as_string())
+
 print("Ancho =", GetSystemMetrics(0))
 print("Alto =", GetSystemMetrics(1))
 
 
-
+"""
 ###click('imagenes\SelectAll.png')
 
 try:
@@ -52,6 +72,7 @@ time.sleep(1)
 lackey.exit('')
 
 
+"""
 
 
         
